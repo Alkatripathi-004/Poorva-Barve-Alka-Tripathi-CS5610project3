@@ -1,0 +1,56 @@
+.selection-page-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.puzzle-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.puzzle-list li {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.puzzle-list li:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.puzzle-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 1rem;
+}
+
+.puzzle-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.puzzle-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #fff;
+    text-decoration: none;
+}
+
+.puzzle-title:hover {
+    text-decoration: underline;
+}
+
+.author {
+    font-style: italic;
+    color: #ccc;
+}

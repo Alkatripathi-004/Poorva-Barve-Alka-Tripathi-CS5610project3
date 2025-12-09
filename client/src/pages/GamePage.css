@@ -1,0 +1,116 @@
+.game-page {
+  text-align: center;
+  padding-bottom: 2rem; /* Add space at the bottom */
+}
+
+.timer {
+  font-size: 1.5rem;
+  margin: 1.5rem 0;
+  color: #fff;
+  font-weight: 500;
+}
+
+/* --- Sudoku Board Styles (FIXED) --- */
+/* Common styles for both 6x6 and 9x9 boards */
+.sudoku-board {
+  display: grid;
+  margin: 0 auto;
+  aspect-ratio: 1 / 1; /* Keep it a perfect square */
+  background-color: #fff;
+  border: 3px solid #333;
+  border-radius: 5px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Styles for the 6x6 (Easy) board */
+.grid-6x6 {
+  max-width: 500px;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+}
+
+/* Styles for the 9x9 (Normal) board */
+.grid-9x9 {
+  max-width: 600px;
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(9, 1fr);
+}
+
+/* --- Cell Styles --- */
+.cell {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #ccc;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #3498db;
+  /* Removes the default number input arrows */
+  -moz-appearance: textfield;
+  appearance: textfield;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cell::-webkit-outer-spin-button,
+.cell::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Style for pre-filled, non-editable cells */
+.cell.initial {
+  background-color: #e9ecef;
+  color: #333;
+  cursor: not-allowed;
+}
+
+/* Style for the currently selected cell */
+.cell.selected {
+  border-color: #3498db;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.7);
+  transform: scale(1.05);
+  z-index: 10;
+}
+
+/* Style for a cell with an incorrect value */
+.cell.incorrect {
+  border-color: #e74c3c;
+  color: #e74c3c;
+  background-color: #fbeae8;
+}
+
+/* Style for hovering over a cell */
+.cell:hover:not(.initial) {
+  background-color: #f0f8ff; /* A light blue tint */
+}
+
+
+/* --- Other UI Elements --- */
+.game-controls {
+  margin-top: 1.5rem;
+}
+
+.game-controls button {
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  margin: 0 0.5rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  background-color: #3498db;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.game-controls button:hover {
+  background-color: #2980b9;
+}
+
+.congratulations-message {
+  font-size: 2rem;
+  color: #2ecc71; /* A nice green color */
+  font-weight: bold;
+  margin: 1.5rem 0;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}

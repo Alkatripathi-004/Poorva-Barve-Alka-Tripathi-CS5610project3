@@ -1,0 +1,188 @@
+/* /css/common.css */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: rgb(128, 128, 128); 
+    color: #ffffff;
+  }
+  
+  main {
+    padding: 80px 20px 20px 20px; /* Top padding is for the navbar */
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+  }
+  
+  .navbar {
+    background: #ffffff;
+    padding: 0 2rem;
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  
+  .navbar-brand {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+  
+  .navbar-brand img {
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
+  }
+  
+  .navbar-brand .game-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+  }
+  
+  .navbar-links {
+    list-style: none; 
+    display: flex;
+  }
+  
+  .navbar-links li {
+    margin-left: 1.5rem;
+  }
+  
+  .navbar-links a {
+    text-decoration: none;
+    color: #555;
+    font-weight: 500;
+    padding: 5px 0;
+    border-bottom: 2px solid transparent;
+    transition: color 0.3s ease, border-color 0.3s ease; 
+  }
+  
+  .navbar-links a:hover {
+    color: #3498db;
+  }
+  
+  .navbar-links a.active {
+    color: #3498db;
+    border-bottom-color: #3498db;
+  }
+  
+  .form-container {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-group p {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .form-group input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+  }
+  
+  .submit-button {
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    background-color: #3498db;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; 
+  }
+  
+  .submit-button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px); 
+  }
+  
+  @media (max-width: 768px) {
+    .navbar {
+      top: auto;
+      bottom: 0;
+      height: auto;
+      flex-direction: column;
+      padding: 0.5rem 0;
+    }
+  
+    .navbar-brand {
+      padding-bottom: 0.5rem; 
+      display: inline-flex; 
+    }
+  
+    .navbar-links {
+      width: 100%;
+      justify-content: space-around; 
+      border-top: 1px solid #eee; 
+      padding-top: 0.5rem;
+    }
+  
+    .navbar-links li {
+      margin: 0;
+      flex-grow: 1; 
+    }
+  
+    .navbar-links a {
+      display: block;
+      padding: 0.75rem 0; 
+      text-align: center;
+      border-bottom: none;
+      border-top: 3px solid transparent;
+    }
+    
+    .navbar-links a.active {
+      border-bottom-color: transparent;
+      border-top-color: #3498db; 
+      background-color: #f4f7f9;
+    }
+    
+    main {
+      padding-top: 20px;
+      padding-bottom: 120px; 
+    }
+  
+    h1 {
+      font-size: 1.8rem;
+    }
+}

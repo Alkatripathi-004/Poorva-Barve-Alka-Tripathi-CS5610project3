@@ -1,0 +1,39 @@
+/* src/components/Navbar.css */
+.navbar-auth {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.username-display {
+    color: #e0e0e0;
+    font-weight: 500;
+}
+
+.auth-link {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.auth-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.logout-button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+    background-color: #c0392b;
+}

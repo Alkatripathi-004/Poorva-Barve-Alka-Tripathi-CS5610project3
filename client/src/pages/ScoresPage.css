@@ -1,0 +1,35 @@
+.scores-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.scores-table {
+    margin-top: 2rem;
+    background: #fff;
+    color: #333;
+    border-radius: 8px;
+    overflow: hidden; /* To make border-radius work with children */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.scores-header, .scores-row {
+    display: grid;
+    grid-template-columns: 1fr 3fr 2fr;
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.scores-header {
+    background-color: #f4f7f9;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.scores-row:last-child {
+    border-bottom: none;
+}
+
+.scores-row div:last-child {
+    text-align: center;
+}
