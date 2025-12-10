@@ -12,12 +12,14 @@ const register = async (req, res) => {
         }
         const newUser = new User({ username, password });
         await newUser.save();
-        
-        // Log the user in immediately after registration
-        req.session.user = newUser;
-        res.status(201).json(newUser);
+
+        // Log the user in immediately after registration (without password)
+        const userResponse = { _id: newUser._id, username: newUser.username };
+        req.session.user = userResponse;
+        res.status(201).json(userResponse);
     } catch (error) {
-        res.status(500).json({ message: "Server error during registration.", error });
+        console.error("Registration error:", error);
+        res.status(500).json({ message: "Server error during registration.", error: error.message });
     }
 };
 
@@ -32,9 +34,10 @@ const login = async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({ message: "Invalid username or password." });
         }
-        // Save user to the session
-        req.session.user = user;
-        res.status(200).json(user);
+        // Save user to the session (without password)
+        const userResponse = { _id: user._id, username: user.username };
+        req.session.user = userResponse;
+        res.status(200).json(userResponse);
     } catch (error) {
         res.status(500).json({ message: "Server error during login.", error });
     }

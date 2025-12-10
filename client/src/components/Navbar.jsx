@@ -10,6 +10,11 @@ const Navbar = () => {
     return (
         <nav className="navbar">
             <NavLink to="/" className="navbar-brand">Sudoku</NavLink>
+            <div className="navbar-links">
+                <NavLink to="/games" className="nav-link">Play</NavLink>
+                <NavLink to="/scores" className="nav-link">High Scores</NavLink>
+                <NavLink to="/rules" className="nav-link">Rules</NavLink>
+            </div>
             <div className="navbar-auth">
                 {user ? (
                     <>

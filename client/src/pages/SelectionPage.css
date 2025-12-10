@@ -4,6 +4,51 @@
     padding: 2rem;
 }
 
+.selection-page-container h1 {
+    color: #fff;
+    margin-bottom: 1.5rem;
+}
+
+.selection-page-container h2 {
+    color: #fff;
+    margin-top: 2rem;
+    margin-bottom: 0;
+}
+
+.create-game-section {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.create-game-section button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #fff;
+    background-color: #3498db;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.create-game-section button:hover:not(:disabled) {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.create-game-section button:disabled {
+    background-color: #7f8c8d;
+    cursor: not-allowed;
+}
+
+.error-message {
+    color: #e74c3c;
+    margin-top: 1rem;
+    font-weight: 500;
+}
+
 .puzzle-list {
     list-style-type: none;
     padding: 0;
@@ -21,6 +66,7 @@
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     transition: background-color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
 }
 
 .puzzle-list li:hover {

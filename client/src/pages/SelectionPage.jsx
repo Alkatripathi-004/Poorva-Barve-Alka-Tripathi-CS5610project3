@@ -1,9 +1,25 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../services/api'; // Our Axios instance
+import api from '../services/api';
 import { format } from 'date-fns';
 import { AuthContext } from '../context/AuthContext';
 import './SelectionPage.css';
+
+// Icons to randomly assign to games
+const gameIcons = [
+    '/icons8-sun-48.png',
+    '/icons8-breeze-64.png',
+    '/icons8-woman-in-lotus-position-48.png',
+    '/icons8-morning-48.png',
+    '/icons8-start-48.png',
+    '/icons8-sudoku-64.png',
+];
+
+// Get a consistent icon for a game based on its ID
+const getIconForGame = (gameId) => {
+    const hash = gameId.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    return gameIcons[hash % gameIcons.length];
+};
 
 const SelectionPage = () => {
     const [games, setGames] = useState([]);
@@ -12,7 +28,6 @@ const SelectionPage = () => {
     const navigate = useNavigate();
     const { user } = useContext(AuthContext);
 
-    // Fetch the list of games when the component mounts
     useEffect(() => {
         const fetchGames = async () => {
             try {
@@ -23,9 +38,8 @@ const SelectionPage = () => {
             }
         };
         fetchGames();
-    }, []); // Empty dependency array means this runs once on mount
+    }, []);
 
-    // Function to handle creating a new game
     const handleCreateGame = async (difficulty) => {
         if (!user) {
             setError('You must be logged in to create a game.');
@@ -36,7 +50,6 @@ const SelectionPage = () => {
         try {
             const response = await api.post('/sudoku', { difficulty });
             const { gameId } = response.data;
-            // Redirect the user to the new game page
             navigate(`/game/${gameId}`);
         } catch (err) {
             setError('Failed to create a new game.');
@@ -56,24 +69,25 @@ const SelectionPage = () => {
                 </button>
             </div>
             {error && <p className="error-message">{error}</p>}
-            
+
             <h2>Or Join an Existing Game</h2>
-            <div className="game-list">
+            <ul className="puzzle-list">
                 {games.length > 0 ? (
                     games.map((game) => (
-                        <div key={game._id} className="game-list-item" onClick={() => navigate(`/game/${game._id}`)}>
-                            <div className="game-name">{game.name}</div>
-                            <div className="game-details">
-                                <span>Difficulty: {game.difficulty}</span>
-                                <span>Creator: {game.createdBy.username}</span>
-                                <span>Created: {format(new Date(game.createdAt), 'MMM d, yyyy')}</span>
+                        <li key={game._id} onClick={() => navigate(`/game/${game._id}`)}>
+                            <img src={getIconForGame(game._id)} alt="puzzle icon" className="puzzle-icon" />
+                            <div className="puzzle-info">
+                                <span className="puzzle-title">{game.name}</span>
+                                <span className="author">
+                                    {game.difficulty} • by {game.createdBy?.username || 'Unknown'} • {format(new Date(game.createdAt), 'MMM d, yyyy')}
+                                </span>
                             </div>
-                        </div>
+                        </li>
                     ))
                 ) : (
                     <p>No games available. Create one to get started!</p>
                 )}
-            </div>
+            </ul>
         </div>
     );
 };

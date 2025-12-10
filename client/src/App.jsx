@@ -24,11 +24,9 @@ const router = createBrowserRouter([
                 path: 'games', 
                 element: <SelectionPage /> 
             },
-            // Note: This path should be '/game/:gameId' to match your Project 3 requirements.
-            // I'll keep the old one for now to match the code I've sent you.
-            { 
-                path: 'games/:mode', 
-                element: <GamePage /> 
+            {
+                path: 'game/:gameId',
+                element: <GamePage />
             },
             { 
                 path: 'rules', 

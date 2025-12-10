@@ -13,11 +13,13 @@ export const GameProvider = ({ children, initialGameData }) => {
     const [isComplete, setIsComplete] = useState(false);
     const [timer, setTimer] = useState(0);
     const [isRunning, setIsRunning] = useState(true);
+    const [selectedCell, setSelectedCell] = useState({ row: -1, col: -1 });
+    const [mode, setMode] = useState('normal');
 
     // Initialize the board from the fetched data
     useEffect(() => {
         if (initialGameData) {
-            const formattedBoard = initialGameData.board.map(row => 
+            const formattedBoard = initialGameData.board.map(row =>
                 row.map(value => ({
                     value: value,
                     isInitial: value !== 0,
@@ -26,17 +28,36 @@ export const GameProvider = ({ children, initialGameData }) => {
             );
             setBoard(formattedBoard);
             setInitialBoard(JSON.parse(JSON.stringify(formattedBoard)));
+            setMode(initialGameData.difficulty === 'EASY' ? 'easy' : 'normal');
         }
     }, [initialGameData]);
-    
+
     const resetGame = () => {
         setBoard(JSON.parse(JSON.stringify(initialBoard)));
         setIsComplete(false);
         setTimer(0);
         setIsRunning(true);
+        setSelectedCell({ row: -1, col: -1 });
     };
-    
-    // ... (The updateCellValue and selectCell functions remain the same as before)
+
+    const selectCell = (row, col) => {
+        setSelectedCell({ row, col });
+    };
+
+    const updateCellValue = (row, col, value) => {
+        const newValue = value === '' ? 0 : parseInt(value, 10);
+        if (isNaN(newValue) || newValue < 0 || newValue > 9) return;
+
+        const newBoard = board.map((r, rIndex) =>
+            r.map((cell, cIndex) => {
+                if (rIndex === row && cIndex === col) {
+                    return { ...cell, value: newValue, isIncorrect: false };
+                }
+                return cell;
+            })
+        );
+        setBoard(newBoard);
+    };
     
     // Timer Logic
     useEffect(() => {
@@ -85,8 +106,11 @@ export const GameProvider = ({ children, initialGameData }) => {
         isComplete,
         timer,
         resetGame,
-        // ... (other functions: updateCellValue, selectCell)
-        gameData: initialGameData // Pass down the raw game data for the UI
+        selectedCell,
+        selectCell,
+        updateCellValue,
+        mode,
+        gameData: initialGameData
     };
 
     return (
