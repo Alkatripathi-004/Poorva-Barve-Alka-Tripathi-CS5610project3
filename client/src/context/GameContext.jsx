@@ -4,12 +4,11 @@ import { AuthContext } from './AuthContext';
 
 export const GameContext = createContext();
 
-// ... (Keep the `validateBoard` helper function from the previous version)
-
 export const GameProvider = ({ children, initialGameData }) => {
     const { user } = useContext(AuthContext);
     const [board, setBoard] = useState([]);
     const [initialBoard, setInitialBoard] = useState([]);
+    const [solution, setSolution] = useState([]);
     const [isComplete, setIsComplete] = useState(false);
     const [timer, setTimer] = useState(0);
     const [isRunning, setIsRunning] = useState(true);
@@ -19,6 +18,10 @@ export const GameProvider = ({ children, initialGameData }) => {
     // Initialize the board from the fetched data
     useEffect(() => {
         if (initialGameData) {
+            // Store the solution
+            setSolution(initialGameData.solution);
+
+            // Format the board with metadata
             const formattedBoard = initialGameData.board.map(row =>
                 row.map(value => ({
                     value: value,
@@ -29,6 +32,9 @@ export const GameProvider = ({ children, initialGameData }) => {
             setBoard(formattedBoard);
             setInitialBoard(JSON.parse(JSON.stringify(formattedBoard)));
             setMode(initialGameData.difficulty === 'EASY' ? 'easy' : 'normal');
+            setTimer(0);
+            setIsComplete(false);
+            setIsRunning(true);
         }
     }, [initialGameData]);
 
@@ -51,7 +57,9 @@ export const GameProvider = ({ children, initialGameData }) => {
         const newBoard = board.map((r, rIndex) =>
             r.map((cell, cIndex) => {
                 if (rIndex === row && cIndex === col) {
-                    return { ...cell, value: newValue, isIncorrect: false };
+                    // Check if this value is correct against the solution
+                    const isCorrect = newValue === 0 || newValue === solution[row][col];
+                    return { ...cell, value: newValue, isIncorrect: !isCorrect };
                 }
                 return cell;
             })
@@ -70,27 +78,27 @@ export const GameProvider = ({ children, initialGameData }) => {
     
     // Win Condition Logic
     useEffect(() => {
-        if (board.length === 0 || isComplete) return;
+        if (board.length === 0 || isComplete || solution.length === 0) return;
 
         const isFilled = board.every(row => row.every(cell => cell.value !== 0));
         const hasNoErrors = board.every(row => row.every(cell => !cell.isIncorrect));
 
         if (isFilled && hasNoErrors) {
+            // Double-check against the solution
             const isCorrect = board.every((row, rIndex) => 
-                row.every((cell, cIndex) => cell.value === initialGameData.solution[rIndex][cIndex])
+                row.every((cell, cIndex) => cell.value === solution[rIndex][cIndex])
             );
             
             if (isCorrect) {
                 setIsComplete(true);
                 setIsRunning(false);
                 
-                // --- POST to highscore API when game is won ---
+                // Submit the score
                 const submitScore = async () => {
                     try {
-                        await api.post('/highscore', { 
+                        await api.post('/api/highscore', { 
                             gameId: initialGameData._id,
                             time: timer,
-                            // The user is implicitly known via the session cookie
                         });
                     } catch (err) {
                         console.error("Failed to submit high score", err);
@@ -99,7 +107,7 @@ export const GameProvider = ({ children, initialGameData }) => {
                 submitScore();
             }
         }
-    }, [board, initialGameData, isComplete, timer, user]);
+    }, [board, solution, initialGameData, isComplete, timer]);
 
     const contextValue = {
         board,

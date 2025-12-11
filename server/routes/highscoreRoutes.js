@@ -1,15 +1,19 @@
 // server/routes/highscoreRoutes.js
 const express = require('express');
 const router = express.Router();
-const highscoreController = require('../controllers/highscoreController.js');
+const {
+    submitScore,
+    getGlobalHighscores,
+    getHighscoresForGame
+} = require('../controllers/highscoreController');
 
-// GET /api/highscore - Returns the main high score leaderboard
-router.get('/', highscoreController.getGlobalHighscores);
+// POST: Submit a score for a completed game
+router.post('/', submitScore);
 
-// POST /api/highscore - Submits a new score for a completed game
-router.post('/', highscoreController.submitScore);
+// GET: Get global highscores (sorted by completion count)
+router.get('/', getGlobalHighscores);
 
-// GET /api/highscore/:gameId - Returns high scores for a specific game
-router.get('/:gameId', highscoreController.getHighscoresForGame);
+// GET: Get highscores for a specific game (sorted by fastest time)
+router.get('/:gameId', getHighscoresForGame);
 
 module.exports = router;
