@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -20,16 +21,19 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Add cookie-parser BEFORE session middleware
+app.use(cookieParser());
+
 app.use(session({
     secret: process.env.SESSION_SECRET || 'a_very_secret_key_for_your_sessions',
     resave: false,
     saveUninitialized: false,
     cookie: { 
-    secure: true,
-    httpOnly: false, 
-    maxAge: 1000 * 60 * 60 * 24,
-    sameSite: 'none'
-},
+        secure: true,
+        httpOnly: false, 
+        maxAge: 1000 * 60 * 60 * 24,
+        sameSite: 'none'
+    },
 }));
 
 mongoose.connect(process.env.MONGO_URI)
