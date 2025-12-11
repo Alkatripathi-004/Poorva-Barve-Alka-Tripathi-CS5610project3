@@ -17,8 +17,8 @@ const register = async (req, res) => {
         const userResponse = { _id: newUser._id, username: newUser.username };
         req.session.user = userResponse;
         
-        // SAVE THE SESSION EXPLICITLY
-        req.session.save((err) => {
+        // Explicitly save the session before responding
+        req.session.save(function(err) {
             if (err) {
                 return res.status(500).json({ message: "Server error during registration.", error: err.message });
             }
@@ -45,15 +45,16 @@ const login = async (req, res) => {
         const userResponse = { _id: user._id, username: user.username };
         req.session.user = userResponse;
         
-        // SAVE THE SESSION EXPLICITLY
-        req.session.save((err) => {
+        // Explicitly save the session before responding
+        req.session.save(function(err) {
             if (err) {
-                return res.status(500).json({ message: "Server error during login.", error });
+                return res.status(500).json({ message: "Server error during login.", error: err.message });
             }
             res.status(200).json(userResponse);
         });
     } catch (error) {
-        res.status(500).json({ message: "Server error during login.", error });
+        console.error("Login error:", error);
+        res.status(500).json({ message: "Server error during login.", error: error.message });
     }
 };
 
@@ -67,7 +68,7 @@ const logout = (req, res) => {
     });
 };
 
-// THIS IS THE MISSING FUNCTION
+// Get current user
 const getCurrentUser = (req, res) => {
     if (req.session.user) {
         // If a user is found in the session, send it back
