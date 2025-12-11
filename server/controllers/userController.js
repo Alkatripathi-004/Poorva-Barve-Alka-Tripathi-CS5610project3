@@ -50,6 +50,7 @@ const login = async (req, res) => {
             if (err) {
                 return res.status(500).json({ message: "Server error during login.", error: err.message });
             }
+            res.setHeader('Set-Cookie', `connect.sid=${req.sessionID}; Path=/; HttpOnly=false; SameSite=None; Secure`);
             res.status(200).json(userResponse);
         });
     } catch (error) {
