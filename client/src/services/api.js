@@ -1,6 +1,8 @@
+// client/src/services/api.js
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+// Use hardcoded backend URL for production
+const API_BASE_URL = 'https://sudoku-server-tqb6.onrender.com/api';
 
 const api = axios.create({
     baseURL: API_BASE_URL,
