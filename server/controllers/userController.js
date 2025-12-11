@@ -16,7 +16,14 @@ const register = async (req, res) => {
         // Log the user in immediately after registration (without password)
         const userResponse = { _id: newUser._id, username: newUser.username };
         req.session.user = userResponse;
-        res.status(201).json(userResponse);
+        
+        // SAVE THE SESSION EXPLICITLY
+        req.session.save((err) => {
+            if (err) {
+                return res.status(500).json({ message: "Server error during registration.", error: error.message });
+            }
+            res.status(201).json(userResponse);
+        });
     } catch (error) {
         console.error("Registration error:", error);
         res.status(500).json({ message: "Server error during registration.", error: error.message });
@@ -37,7 +44,14 @@ const login = async (req, res) => {
         // Save user to the session (without password)
         const userResponse = { _id: user._id, username: user.username };
         req.session.user = userResponse;
-        res.status(200).json(userResponse);
+        
+        // SAVE THE SESSION EXPLICITLY
+        req.session.save((err) => {
+            if (err) {
+                return res.status(500).json({ message: "Server error during login.", error });
+            }
+            res.status(200).json(userResponse);
+        });
     } catch (error) {
         res.status(500).json({ message: "Server error during login.", error });
     }
