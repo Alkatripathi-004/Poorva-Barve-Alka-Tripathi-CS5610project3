@@ -8,7 +8,6 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-// Get client URL from environment or default
 const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5174';
 
 app.use(cors({
@@ -20,19 +19,20 @@ app.use(cors({
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Add cookie-parser BEFORE session middleware
 app.use(cookieParser());
+
+// Session config - different for local vs production
+const isProduction = process.env.NODE_ENV === 'production';
 
 app.use(session({
     secret: process.env.SESSION_SECRET || 'a_very_secret_key_for_your_sessions',
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: { 
-        secure: true,
-        httpOnly: false, 
-        maxAge: 1000 * 60 * 60 * 24,
-        sameSite: 'none'
+        secure: false,        // Important: Must be false for HTTP (not HTTPS)
+        httpOnly: true,       // Good security practice
+        maxAge: 1000 * 60 * 60 * 24, // 1 day
+        sameSite: 'lax'       // 'lax' is generally safe and works for localhost navigation
     },
 }));
 
