@@ -20,7 +20,7 @@ const register = async (req, res) => {
         // SAVE THE SESSION EXPLICITLY
         req.session.save((err) => {
             if (err) {
-                return res.status(500).json({ message: "Server error during registration.", error: error.message });
+                return res.status(500).json({ message: "Server error during registration.", error: err.message });
             }
             res.status(201).json(userResponse);
         });
