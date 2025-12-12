@@ -1,7 +1,7 @@
 // src/App.jsx
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Layout from './components/Layout.jsx'; // Use .jsx for clarity
+import Layout from './components/Layout.jsx'; 
 import HomePage from './pages/HomePage.jsx';
 import SelectionPage from './pages/SelectionPage.jsx';
 import GamePage from './pages/GamePage.jsx';
@@ -15,7 +15,6 @@ const router = createBrowserRouter([
         path: '/',
         element: <Layout />,
         children: [
-            // CORRECTED: This 'index' route tells the router to render HomePage at the root URL ('/').
             { 
                 index: true, 
                 element: <HomePage /> 

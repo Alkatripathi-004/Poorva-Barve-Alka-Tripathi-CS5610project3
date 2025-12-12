@@ -1,5 +1,4 @@
 // server/logic/words.js
-// 1000+ words for generating unique game names
 module.exports = [
   // Nature
   "Ocean", "Mountain", "Forest", "River", "Desert", "Sunrise", "Sunset", "Winter", "Summer", "Autumn",

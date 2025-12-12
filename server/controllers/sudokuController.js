@@ -3,8 +3,6 @@ const Game = require('../models/Game.js');
 const { generatePuzzle } = require('../logic/sudokuLogic.js');
 const words = require('../logic/words.js');
 
-// --- Helper Function ---
-
 // Function to create a unique game name
 const createGameName = () => {
     const randomWord = () => words[Math.floor(Math.random() * words.length)];
@@ -21,7 +19,7 @@ const createGameName = () => {
  */
 const createGame = async (req, res) => {
     const { difficulty } = req.body;
-    const userId = req.session.user?._id; // Get user from session
+    const userId = req.session.user?._id; 
 
     if (!userId) {
         return res.status(401).json({ message: "You must be logged in to create a game." });
@@ -31,7 +29,6 @@ const createGame = async (req, res) => {
         return res.status(400).json({ message: "Invalid difficulty specified. Must be 'EASY' or 'NORMAL'." });
     }
 
-    // Generate the puzzle using your backtracking logic
     const { board, solution } = generatePuzzle(difficulty);
     
     try {
@@ -45,11 +42,9 @@ const createGame = async (req, res) => {
 
         await newGame.save();
         
-        // Return the ID of the newly created game
         res.status(201).json({ gameId: newGame._id });
 
     } catch (error) {
-        // Handle potential errors, like a non-unique name collision (rare)
         console.error("Error creating game:", error);
         res.status(500).json({ message: "Server error while creating game." });
     }
@@ -63,11 +58,9 @@ const createGame = async (req, res) => {
 const getAllGames = async (req, res) => {
     try {
         const games = await Game.find({})
-            // Populate the 'createdBy' field to get the user's details
-            .populate('createdBy', 'username') // Only fetch the 'username'
-            // Select only the fields needed for the list view
+            
+            .populate('createdBy', 'username') 
             .select('name difficulty createdBy createdAt')
-            // Show the newest games first
             .sort({ createdAt: -1 });
 
         res.status(200).json(games);
@@ -153,8 +146,6 @@ const deleteGame = async (req, res) => {
 };
 
 
-// --- EXPORTS ---
-// This block makes all the functions available for your routes file.
 module.exports = {
     createGame,
     getAllGames,

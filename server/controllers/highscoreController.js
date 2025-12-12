@@ -23,13 +23,11 @@ const submitScore = async (req, res) => {
             return res.status(404).json({ message: "Game not found." });
         }
 
-        // Check if user has already completed this game
         const alreadyCompleted = game.completedBy.some(entry => entry.user.equals(userId));
         if (alreadyCompleted) {
             return res.status(200).json({ message: "Score already recorded for this game." });
         }
 
-        // Add the new completion record
         game.completedBy.push({ user: userId, time });
         await game.save();
 
@@ -56,7 +54,6 @@ const getGlobalHighscores = async (req, res) => {
             completionCount: game.completedBy.length,
         }));
 
-        // Sort by the number of completions in descending order
         highscores.sort((a, b) => b.completionCount - a.completionCount);
 
         res.status(200).json(highscores);
@@ -79,7 +76,6 @@ const getHighscoresForGame = async (req, res) => {
             return res.status(404).json({ message: "Game not found." });
         }
         
-        // Sort completions by time (fastest first)
         game.completedBy.sort((a, b) => a.time - b.time);
 
         res.status(200).json(game.completedBy);

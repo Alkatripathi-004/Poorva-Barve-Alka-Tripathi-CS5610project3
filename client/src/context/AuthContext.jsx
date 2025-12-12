@@ -8,14 +8,12 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // Check if user is already logged in when app loads
     useEffect(() => {
         const checkLoggedIn = async () => {
             try {
                 const { data } = await api.get('/users/me');
                 setUser(data);
             } catch (err) {
-                // User is not logged in - this is expected
                 console.log('User not logged in');
                 setUser(null);
             } finally {

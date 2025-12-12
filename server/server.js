@@ -21,7 +21,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Session config - different for local vs production
 const isProduction = process.env.NODE_ENV === 'production';
 
 app.use(session({
@@ -29,10 +28,10 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: { 
-        secure: false,        // Important: Must be false for HTTP (not HTTPS)
-        httpOnly: true,       // Good security practice
-        maxAge: 1000 * 60 * 60 * 24, // 1 day
-        sameSite: 'lax'       // 'lax' is generally safe and works for localhost navigation
+        secure: false,       
+        httpOnly: true,       
+        maxAge: 1000 * 60 * 60 * 24, 
+        sameSite: 'lax'       
     },
 }));
 

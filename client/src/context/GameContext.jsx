@@ -15,13 +15,10 @@ export const GameProvider = ({ children, initialGameData }) => {
     const [selectedCell, setSelectedCell] = useState({ row: -1, col: -1 });
     const [mode, setMode] = useState('normal');
 
-    // Initialize the board from the fetched data
     useEffect(() => {
         if (initialGameData) {
-            // Store the solution
             setSolution(initialGameData.solution);
 
-            // Format the board with metadata
             const formattedBoard = initialGameData.board.map(row =>
                 row.map(value => ({
                     value: value,
@@ -67,7 +64,6 @@ export const GameProvider = ({ children, initialGameData }) => {
         setBoard(newBoard);
     };
     
-    // Timer Logic
     useEffect(() => {
         let interval;
         if (isRunning && !isComplete) {
@@ -76,7 +72,6 @@ export const GameProvider = ({ children, initialGameData }) => {
         return () => clearInterval(interval);
     }, [isRunning, isComplete]);
     
-    // Win Condition Logic
     useEffect(() => {
         if (board.length === 0 || isComplete || solution.length === 0) return;
 
@@ -84,7 +79,6 @@ export const GameProvider = ({ children, initialGameData }) => {
         const hasNoErrors = board.every(row => row.every(cell => !cell.isIncorrect));
 
         if (isFilled && hasNoErrors) {
-            // Double-check against the solution
             const isCorrect = board.every((row, rIndex) => 
                 row.every((cell, cIndex) => cell.value === solution[rIndex][cIndex])
             );
@@ -93,7 +87,6 @@ export const GameProvider = ({ children, initialGameData }) => {
                 setIsComplete(true);
                 setIsRunning(false);
                 
-                // Submit the score
                 const submitScore = async () => {
                     try {
                         await api.post('/api/highscore', { 
